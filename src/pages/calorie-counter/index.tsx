@@ -13,9 +13,9 @@ import { CalcCalorie } from "../functions/CalorieCounter";
 
 export function CalorieCounter() {
   const [gender, setGender] = useState<typeGender>("man");
-  const [weight, setWeight] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
-  const [age, setAge] = useState<number>(0);
+  const [weight, setWeight] = useState<number>(80);
+  const [height, setHeight] = useState<number>(175);
+  const [age, setAge] = useState<number>(30);
   const [activity, setActivity] = useState<TypeActivity>();
   const [TBM, setTBM] = useState<number>();
 
@@ -40,20 +40,20 @@ export function CalorieCounter() {
   }
 
   return (
-    <div className=" flex flex-col gap-10">
+    <div className=" flex flex-col items-center p-5 gap-10">
       <h1 className=" text-white font-bold">
         Descubra seu gasto calórico diário
       </h1>
 
       {TBM && (
         <span className=" text-white text-lg">
-          Meta calórica <span>{TBM.toFixed(0)}</span> calorias
+          Meta calórica <span className=" font-bold text-green-500">{TBM.toFixed(0)}</span> calorias
         </span>
       )}
 
       <div className=" flex flex-col gap-5 p-5">
-        <div className="flex items-center gap-5">
-          <span className=" text-white font-medium">Peso</span>
+        <div className="flex items-center">
+          <span className=" text-white font-medium w-16">Peso</span>
           <Input
             name="weight"
             className="max-w-72"
@@ -64,8 +64,8 @@ export function CalorieCounter() {
           />
         </div>
 
-        <div className="flex items-center gap-5">
-          <span className=" text-white font-medium">Altura</span>
+        <div className="flex items-center">
+          <span className=" text-white font-medium  w-16">Altura</span>
           <Input
             name="weight"
             className="max-w-72"
@@ -76,8 +76,8 @@ export function CalorieCounter() {
           />
         </div>
 
-        <div className="flex items-center gap-5">
-          <span className=" text-white font-medium">Idade</span>
+        <div className="flex items-center">
+          <span className=" text-white font-medium w-16">Idade</span>
           <Input
             name="weight"
             className="max-w-72"

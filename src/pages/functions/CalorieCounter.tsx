@@ -41,6 +41,5 @@ export function CalcCalorie({
     default:
   }
 
-  console.log("valor final", TBM);
   return TBM;
 }
