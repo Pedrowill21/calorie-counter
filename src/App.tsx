@@ -1,4 +1,5 @@
-import { DefaultLayout } from "./components/ui/layout/default";
+
+import { DefaultLayout } from "./components/layout/default";
 import { AppRouter } from "./routes";
 
 function App() {
