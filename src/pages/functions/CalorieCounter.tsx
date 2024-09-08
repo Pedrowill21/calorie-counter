@@ -19,27 +19,28 @@ export function CalcCalorie({
 
   switch (activity) {
     case "pouca ou nenhuma":
-      return (TBM = TBM * 1.2);
+      TBM = TBM * 1.2;
       break;
 
     case "levemente ativo":
-      return (TBM = TBM * 1.375);
+      TBM = TBM * 1.375;
       break;
 
     case "moderadamente ativo":
-      return (TBM = TBM * 1.55);
+      TBM = TBM * 1.55;
       break;
 
     case "altamente ativo":
-      return (TBM = TBM * 1.725);
+      TBM = TBM * 1.725;
       break;
 
     case "extremamente ativo":
-      return (TBM = TBM * 1.9);
+      TBM = TBM * 1.9;
       break;
 
     default:
   }
 
+  console.log("valor final", TBM);
   return TBM;
 }
