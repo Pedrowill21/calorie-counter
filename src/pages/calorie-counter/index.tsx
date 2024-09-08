@@ -17,6 +17,7 @@ export function CalorieCounter() {
   const [height, setHeight] = useState<number>(0);
   const [age, setAge] = useState<number>(0);
   const [activity, setActivity] = useState<TypeActivity>();
+  const [TBM, setTBM] = useState<number>();
 
   function onSubmit() {
     console.log("submit", {
@@ -27,13 +28,15 @@ export function CalorieCounter() {
       activity,
     });
 
-    CalcCalorie({
-      weight,
-      height,
-      age,
-      gender,
-      activity,
-    });
+    setTBM(
+      CalcCalorie({
+        weight,
+        height,
+        age,
+        gender,
+        activity,
+      })
+    );
   }
 
   return (
@@ -41,6 +44,12 @@ export function CalorieCounter() {
       <h1 className=" text-white font-bold">
         Descubra seu gasto calórico diário
       </h1>
+
+      {TBM && (
+        <span className=" text-white text-lg">
+          Meta calórica <span>{TBM.toFixed(0)}</span> calorias
+        </span>
+      )}
 
       <div className=" flex flex-col gap-5 p-5">
         <div className="flex items-center gap-5">
@@ -83,11 +92,10 @@ export function CalorieCounter() {
           <span className=" text-white font-medium">Atividade física</span>
           <Select
             value={activity}
-            defaultValue={activity}
             onValueChange={(e) => setActivity(e as TypeActivity)}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue defaultValue={activity as string} />
+              <SelectValue placeholder="pouca ou nenhuma" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="pouca ou nenhuma">Pouca ou nenhuma</SelectItem>
