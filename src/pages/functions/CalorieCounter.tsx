@@ -1,4 +1,7 @@
-import { ICalorieCounter } from "@/interfaces/calorie-counter";
+import {
+  ICaloricIntakeRecommendation,
+  ICalorieCounter,
+} from "@/interfaces/calorie-counter";
 
 function CalcTBM({ age, gender, height, weight }: ICalorieCounter) {
   const TBM = 10 * weight + 6.25 * height - 5 * age;
@@ -43,3 +46,7 @@ export function CalcCalorie({
 
   return TBM;
 }
+
+export function CaloricIntakeRecommendation({
+  TBM,
+}: ICaloricIntakeRecommendation) {}
