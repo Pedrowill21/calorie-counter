@@ -15,6 +15,24 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CalcCalorie } from "../functions/CalorieCounter";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+interface IData {
+  TBM: number;
+  chart: string[];
+}
+
+interface IChart {
+  days: string;
+  peso: string;
+}
 
 export function CalorieCounter() {
   const [gender, setGender] = useState<TypeGender>("man");
@@ -26,57 +44,55 @@ export function CalorieCounter() {
   const [dietTarget, setDietTarget] = useState<TypeDietTarget>("perder peso");
   const [dietSpeed, setDietSpeed] = useState<TypeDietSpeed>("normal");
   const [targetWeight, setTargetWeight] = useState<number>(70);
+  const [chart, setChart] = useState<IChart[] | null>(null);
+
+  const chartData = [
+    { days: "1", peso: 106 },
+    { days: "2", peso: 80 },
+    { days: "3", peso: 70 },
+  ];
+
+  const chartConfig = {
+    peso: {
+      label: "peso",
+      color: "#05c23e",
+    },
+  } satisfies ChartConfig;
 
   function onSubmit() {
-    // console.log("submit", {
-    //   weight,
-    //   height,
-    //   age,
-    //   gender,
-    //   activity,
-    //   dietSpeed,
-    //   dietTarget,
-    //   targetWeight,
-    // });
+    const data: IData = CalcCalorie({
+      weight,
+      height,
+      age,
+      gender,
+      activity,
+      dietSpeed,
+      dietTarget,
+      targetWeight,
+    });
 
-    setTBM(
-      CalcCalorie({
-        weight,
-        height,
-        age,
-        gender,
-        activity,
-        dietSpeed,
-        dietTarget,
-        targetWeight,
-      })
+    setTBM(data.TBM);
+    setChart(
+      data.chart.map((item, i) => ({ days: `Dia ${i}`, peso: `${item}` }))
     );
   }
 
   return (
-    <div className=" flex flex-col items-center p-5 gap-10">
+    <div className=" w-full flex flex-col items-center p-5 gap-10">
       <h1 className=" text-white font-bold">
         Descubra seu gasto calórico diário
       </h1>
 
-      {TBM && (
-        <span className=" text-white text-lg">
-          Meta calórica{" "}
-          <span className=" font-bold text-green-500">{TBM.toFixed(0)}</span>{" "}
-          calorias
-        </span>
-      )}
-
       <div className=" flex flex-col gap-5 p-5">
         <div className="flex items-center">
-          <span className=" text-white font-medium w-16">Peso</span>
+          <span className=" text-white font-medium w-16">peso</span>
           <Input
             name="weight"
             className="max-w-72"
             type="number"
             value={weight}
             onChange={(e) => setWeight(Number(e.target.value))}
-            placeholder="Peso em KG"
+            placeholder="peso em KG"
           />
         </div>
 
@@ -88,7 +104,7 @@ export function CalorieCounter() {
             type="number"
             value={targetWeight}
             onChange={(e) => setTargetWeight(Number(e.target.value))}
-            placeholder="Peso em KG"
+            placeholder="peso em KG"
           />
         </div>
 
@@ -195,6 +211,41 @@ export function CalorieCounter() {
           Calcular
         </Button>
       </div>
+
+      {TBM && (
+        <span className=" text-white text-lg">
+          Meta calórica{" "}
+          <span className=" font-bold text-green-500">{TBM.toFixed(0)}</span>{" "}
+          calorias
+        </span>
+      )}
+
+      {chart && (
+        <div className=" w-full flex flex-col items-center gap-5">
+          <span className=" text-white font-bold">{chart.length} dias de dieta </span>
+          <ChartContainer
+            config={chartConfig}
+            className="min-h-[200px] w-full max-w-[800px]"
+          >
+            <BarChart accessibilityLayer data={chart}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="days"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend
+                className=" text-white"
+                content={<ChartLegendContent />}
+              />
+              <Bar dataKey="peso" fill="var(--color-peso)" radius={4} />
+            </BarChart>
+          </ChartContainer>
+        </div>
+      )}
     </div>
   );
 }

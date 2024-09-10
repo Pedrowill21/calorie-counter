@@ -31,7 +31,7 @@ export function CalcCalorie({
 
   TBM = TBM * (activityMultipliers[activity] || 1.2);
 
-  CaloricRecommendation({
+  const recommendation = CaloricRecommendation({
     dietSpeed,
     dietTarget,
     targetWeight,
@@ -39,7 +39,7 @@ export function CalcCalorie({
     weight,
   });
 
-  return TBM;
+  return { TBM, chart: recommendation };
 }
 
 const dietSpeedMultipliers: Record<string, number> = {
@@ -72,5 +72,6 @@ function CaloricRecommendation({
     dailyDeficit.push((currentWeight / 7700).toFixed(2));
   }
 
-  console.log("peso final", dailyDeficit);
+  // console.log("peso final", dailyDeficit);
+  return dailyDeficit
 }
