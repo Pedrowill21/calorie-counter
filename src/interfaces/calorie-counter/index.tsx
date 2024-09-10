@@ -1,17 +1,26 @@
-export interface ICalorieCounter {
-  gender: typeGender;
+export interface IDiet {
+  weight: number;
+  targetWeight: number;
+  dietSpeed: TypeDietSpeed;
+  dietTarget: TypeDietTarget;
+}
+export interface ICalorieCounter extends IDiet {
+  activity: TypeActivity;
+}
+export interface ICaloricRecommendation extends IDiet, ITBM {
+  TBM: number;
+}
+
+export interface ITBM {
+  gender: TypeGender;
   weight: number;
   height: number;
   age: number;
-  activity?: TypeActivity;
 }
 
-export interface ICaloricIntakeRecommendation {
-  TBM: number;
-  weight: number;
-  
+export type TypeDietTarget = "ganhar peso" | "perder peso";
 
-}
+export type TypeDietSpeed = "normal" | "acelerada" | "agressiva";
 
 export type TypeActivity =
   | "pouca ou nenhuma"
@@ -20,4 +29,4 @@ export type TypeActivity =
   | "altamente ativo"
   | "extremamente ativo";
 
-export type typeGender = "woman" | "man";
+export type TypeGender = "woman" | "man";

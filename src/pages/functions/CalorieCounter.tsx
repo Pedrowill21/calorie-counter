@@ -1,15 +1,21 @@
 import {
-  ICaloricIntakeRecommendation,
+  ICaloricRecommendation,
   ICalorieCounter,
+  ITBM,
 } from "@/interfaces/calorie-counter";
 
-function CalcTBM({ age, gender, height, weight }: ICalorieCounter) {
+function CalcTBM({ age, gender, height, weight }: ITBM) {
   const TBM = 10 * weight + 6.25 * height - 5 * age;
-  if (gender === "woman") {
-    return TBM - 161;
-  }
-  return TBM + 5;
+  return gender === "woman" ? TBM - 161 : TBM + 5;
 }
+
+const activityMultipliers: Record<string, number> = {
+  "pouca ou nenhuma": 1.2,
+  "levemente ativo": 1.375,
+  "moderadamente ativo": 1.55,
+  "altamente ativo": 1.725,
+  "extremamente ativo": 1.9,
+};
 
 export function CalcCalorie({
   age,
@@ -20,52 +26,48 @@ export function CalcCalorie({
 }: ICalorieCounter) {
   let TBM = CalcTBM({ age, gender, height, weight });
 
-  switch (activity) {
-    case "pouca ou nenhuma":
-      TBM = TBM * 1.2;
-      break;
+  TBM = TBM * (activityMultipliers[activity] || 1.2);
 
-    case "levemente ativo":
-      TBM = TBM * 1.375;
-      break;
+  CaloricRecommendation({
+    TBM: TBM,
+    weight: 90,
+    targetWeight: 70,
+    dietSpeed: "acelerada",
+    dietTarget: "perder peso",
+  });
 
-    case "moderadamente ativo":
-      TBM = TBM * 1.55;
-      break;
-
-    case "altamente ativo":
-      TBM = TBM * 1.725;
-      break;
-
-    case "extremamente ativo":
-      TBM = TBM * 1.9;
-      break;
-
-    default:
-  }
-
-  CaloricRecommendation({ TBM, weight });
   return TBM;
 }
 
-export function CaloricRecommendation({
+const dietSpeedMultipliers: Record<string, number> = {
+  normal: 0.2,
+  acelerada: 0.35,
+  agressiva: 0.5,
+};
+
+function CaloricRecommendation({
   TBM,
   weight,
-}: ICaloricIntakeRecommendation) {
+  dietTarget,
+  targetWeight,
+  dietSpeed,
+}: ICaloricRecommendation) {
+  let currentWeight = weight * 7700;
+  const dailyDeficit: string[] = [];
+  const deficit = TBM * (dietSpeedMultipliers[dietSpeed] || 0.2);
 
-  let pesoNextYear = weight * 7700;
-  const dayDeficit = [];
+  while (
+    dietTarget === "perder peso"
+      ? currentWeight > targetWeight * 7700
+      : currentWeight < targetWeight * 7700
+  ) {
+    currentWeight =
+      dietTarget === "perder peso"
+        ? currentWeight - deficit
+        : currentWeight + deficit;
 
-  const deficit = TBM * 0.3;
-
-  for (let i = 0; i < 160; i++) {
-    pesoNextYear = pesoNextYear - deficit;
-    dayDeficit.push((pesoNextYear / 7700).toFixed(2));
+    dailyDeficit.push((currentWeight / 7700).toFixed(2));
   }
 
-  console.log("peso final", dayDeficit);
+  console.log("peso final", dailyDeficit);
 }
-
-//recomendação de gasto calórico para emagrecer
-//recomendação de gasto calórico para ganhar massa
-// criar uma função que mostra a progressão do peso da pessoa ao longo de um ano consumindo as calorias e macro nutrientes sugeridos

@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { TypeActivity, typeGender } from "@/interfaces/calorie-counter";
+import { TypeActivity, TypeGender } from "@/interfaces/calorie-counter";
 import { useState } from "react";
 import {
   Select,
@@ -12,11 +12,11 @@ import { Button } from "@/components/ui/button";
 import { CalcCalorie } from "../functions/CalorieCounter";
 
 export function CalorieCounter() {
-  const [gender, setGender] = useState<typeGender>("man");
+  const [gender, setGender] = useState<TypeGender>("man");
   const [weight, setWeight] = useState<number>(80);
   const [height, setHeight] = useState<number>(175);
   const [age, setAge] = useState<number>(30);
-  const [activity, setActivity] = useState<TypeActivity>();
+  const [activity, setActivity] = useState<TypeActivity>("pouca ou nenhuma");
   const [TBM, setTBM] = useState<number>();
 
   function onSubmit() {
@@ -115,7 +115,7 @@ export function CalorieCounter() {
           <span className=" text-white font-medium">Gênero</span>
           <Select
             value={gender}
-            onValueChange={(e) => setGender(e as typeGender)}
+            onValueChange={(e) => setGender(e as TypeGender)}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Homem" />
