@@ -4,10 +4,10 @@ export interface IDiet {
   dietSpeed: TypeDietSpeed;
   dietTarget: TypeDietTarget;
 }
-export interface ICalorieCounter extends IDiet {
+export interface ICalorieCounter extends IDiet, ITBM {
   activity: TypeActivity;
 }
-export interface ICaloricRecommendation extends IDiet, ITBM {
+export interface ICaloricRecommendation extends IDiet {
   TBM: number;
 }
 

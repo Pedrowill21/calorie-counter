@@ -23,17 +23,20 @@ export function CalcCalorie({
   height,
   weight,
   activity,
+  dietSpeed,
+  dietTarget,
+  targetWeight,
 }: ICalorieCounter) {
   let TBM = CalcTBM({ age, gender, height, weight });
 
   TBM = TBM * (activityMultipliers[activity] || 1.2);
 
   CaloricRecommendation({
-    TBM: TBM,
-    weight: 90,
-    targetWeight: 70,
-    dietSpeed: "acelerada",
-    dietTarget: "perder peso",
+    dietSpeed,
+    dietTarget,
+    targetWeight,
+    TBM,
+    weight,
   });
 
   return TBM;

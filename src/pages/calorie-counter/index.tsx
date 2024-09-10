@@ -1,5 +1,10 @@
 import { Input } from "@/components/ui/input";
-import { TypeActivity, TypeGender } from "@/interfaces/calorie-counter";
+import {
+  TypeActivity,
+  TypeDietSpeed,
+  TypeDietTarget,
+  TypeGender,
+} from "@/interfaces/calorie-counter";
 import { useState } from "react";
 import {
   Select,
@@ -18,6 +23,9 @@ export function CalorieCounter() {
   const [age, setAge] = useState<number>(30);
   const [activity, setActivity] = useState<TypeActivity>("pouca ou nenhuma");
   const [TBM, setTBM] = useState<number>();
+  const [dietTarget, setDietTarget] = useState<TypeDietTarget>("perder peso");
+  const [dietSpeed, setDietSpeed] = useState<TypeDietSpeed>("normal");
+  const [targetWeight, setTargetWeight] = useState<number>(70);
 
   function onSubmit() {
     // console.log("submit", {
@@ -26,6 +34,9 @@ export function CalorieCounter() {
     //   age,
     //   gender,
     //   activity,
+    //   dietSpeed,
+    //   dietTarget,
+    //   targetWeight,
     // });
 
     setTBM(
@@ -35,6 +46,9 @@ export function CalorieCounter() {
         age,
         gender,
         activity,
+        dietSpeed,
+        dietTarget,
+        targetWeight,
       })
     );
   }
@@ -47,7 +61,9 @@ export function CalorieCounter() {
 
       {TBM && (
         <span className=" text-white text-lg">
-          Meta calórica <span className=" font-bold text-green-500">{TBM.toFixed(0)}</span> calorias
+          Meta calórica{" "}
+          <span className=" font-bold text-green-500">{TBM.toFixed(0)}</span>{" "}
+          calorias
         </span>
       )}
 
@@ -60,6 +76,18 @@ export function CalorieCounter() {
             type="number"
             value={weight}
             onChange={(e) => setWeight(Number(e.target.value))}
+            placeholder="Peso em KG"
+          />
+        </div>
+
+        <div className="flex items-center">
+          <span className=" text-white font-medium w-16">Objetivo</span>
+          <Input
+            name="target-weight"
+            className="max-w-72"
+            type="number"
+            value={targetWeight}
+            onChange={(e) => setTargetWeight(Number(e.target.value))}
             placeholder="Peso em KG"
           />
         </div>
@@ -123,6 +151,39 @@ export function CalorieCounter() {
             <SelectContent>
               <SelectItem value="man">Homem</SelectItem>
               <SelectItem value="woman">Mulher</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-5">
+          <span className=" text-white font-medium">Dieta</span>
+          <Select
+            value={dietTarget}
+            onValueChange={(e) => setDietTarget(e as TypeDietTarget)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="perder peso" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="perder peso">Perder peso</SelectItem>
+              <SelectItem value="ganhar peso">Ganhar peso</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-5">
+          <span className=" text-white font-medium">Ritmo </span>
+          <Select
+            value={dietSpeed}
+            onValueChange={(e) => setDietSpeed(e as TypeDietSpeed)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="normal" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="normal">Normal</SelectItem>
+              <SelectItem value="acelerada">Acelerado</SelectItem>
+              <SelectItem value="agressiva">Agressivo</SelectItem>
             </SelectContent>
           </Select>
         </div>
