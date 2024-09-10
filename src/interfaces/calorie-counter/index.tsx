@@ -8,6 +8,9 @@ export interface ICalorieCounter {
 
 export interface ICaloricIntakeRecommendation {
   TBM: number;
+  weight: number;
+  
+
 }
 
 export type TypeActivity =

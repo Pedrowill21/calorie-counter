@@ -20,13 +20,13 @@ export function CalorieCounter() {
   const [TBM, setTBM] = useState<number>();
 
   function onSubmit() {
-    console.log("submit", {
-      weight,
-      height,
-      age,
-      gender,
-      activity,
-    });
+    // console.log("submit", {
+    //   weight,
+    //   height,
+    //   age,
+    //   gender,
+    //   activity,
+    // });
 
     setTBM(
       CalcCalorie({

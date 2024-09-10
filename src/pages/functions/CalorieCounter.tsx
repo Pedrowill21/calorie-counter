@@ -44,9 +44,28 @@ export function CalcCalorie({
     default:
   }
 
+  CaloricRecommendation({ TBM, weight });
   return TBM;
 }
 
-export function CaloricIntakeRecommendation({
+export function CaloricRecommendation({
   TBM,
-}: ICaloricIntakeRecommendation) {}
+  weight,
+}: ICaloricIntakeRecommendation) {
+
+  let pesoNextYear = weight * 7700;
+  const dayDeficit = [];
+
+  const deficit = TBM * 0.3;
+
+  for (let i = 0; i < 160; i++) {
+    pesoNextYear = pesoNextYear - deficit;
+    dayDeficit.push((pesoNextYear / 7700).toFixed(2));
+  }
+
+  console.log("peso final", dayDeficit);
+}
+
+//recomendação de gasto calórico para emagrecer
+//recomendação de gasto calórico para ganhar massa
+// criar uma função que mostra a progressão do peso da pessoa ao longo de um ano consumindo as calorias e macro nutrientes sugeridos
