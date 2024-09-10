@@ -5,7 +5,7 @@ import {
   TypeDietTarget,
   TypeGender,
 } from "@/interfaces/calorie-counter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { CalcCalorie } from "../functions/CalorieCounter";
+import { CalcCalorie, dietSpeedMultipliers } from "../functions/CalorieCounter";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
   ChartConfig,
@@ -70,6 +70,11 @@ export function CalorieCounter() {
       data.chart.map((item, i) => ({ days: `Dia ${i}`, peso: `${item}` }))
     );
   }
+
+  useEffect(
+    () => onSubmit(),
+    [activity, dietSpeed, dietTarget, targetWeight]
+  );
 
   return (
     <div className=" w-full flex flex-col items-center p-5 gap-10">
@@ -207,16 +212,29 @@ export function CalorieCounter() {
       </div>
 
       {TBM && (
-        <span className=" text-white text-lg">
-          Meta calórica{" "}
-          <span className=" font-bold text-green-500">{TBM.toFixed(0)}</span>{" "}
-          calorias
-        </span>
+        <div className=" flex flex-col gap-3">
+          <span className=" text-white text-lg">
+            Calorias diárias
+            <span className=" ml-1 font-bold text-green-500">
+              {TBM.toFixed(0)}
+            </span>
+          </span>
+          <span className=" text-white text-lg">
+            {`Calorias para ${dietTarget}`}
+            <span className=" ml-1 font-bold text-green-500">
+              {(TBM - TBM * (dietSpeedMultipliers[dietSpeed] || 0.2)).toFixed(
+                0
+              )}
+            </span>
+          </span>
+        </div>
       )}
 
       {chart && (
         <div className=" w-full flex flex-col items-center gap-5">
-          <span className=" text-white font-bold">{chart.length} dias de dieta </span>
+          <span className=" text-white font-bold">
+            {chart.length} dias de dieta{" "}
+          </span>
           <ChartContainer
             config={chartConfig}
             className="min-h-[200px] w-full max-w-[800px]"

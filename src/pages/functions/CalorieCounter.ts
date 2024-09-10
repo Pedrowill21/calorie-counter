@@ -42,8 +42,8 @@ export function CalcCalorie({
   return { TBM, chart: recommendation };
 }
 
-const dietSpeedMultipliers: Record<string, number> = {
-  normal: 0.2,
+export const dietSpeedMultipliers: Record<string, number> = {
+  normal: 0.20,
   acelerada: 0.35,
   agressiva: 0.5,
 };
@@ -72,6 +72,5 @@ function CaloricRecommendation({
     dailyDeficit.push((currentWeight / 7700).toFixed(2));
   }
 
-  // console.log("peso final", dailyDeficit);
-  return dailyDeficit
+  return dailyDeficit;
 }
