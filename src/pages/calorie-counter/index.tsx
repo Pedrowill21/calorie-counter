@@ -46,12 +46,6 @@ export function CalorieCounter() {
   const [targetWeight, setTargetWeight] = useState<number>(70);
   const [chart, setChart] = useState<IChart[] | null>(null);
 
-  const chartData = [
-    { days: "1", peso: 106 },
-    { days: "2", peso: 80 },
-    { days: "3", peso: 70 },
-  ];
-
   const chartConfig = {
     peso: {
       label: "peso",
